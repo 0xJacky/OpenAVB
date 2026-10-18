@@ -21,6 +21,12 @@ enum {
     VPHONE600_CHIP_FUSE_MODE = 3,
     VPHONE600_SECURITY_EPOCH = 1,
     VPHONE600_BOOT_FLAGS = 0x3c,
+    /*
+     * Virtualization.framework leaves the chip ID register at 0; Apple's ROM
+     * names the chip itself. Without it DFU enumerates as CPID:0000 and no
+     * host can tell which device it is.
+     */
+    VPHONE600_CHIP_ID = 0xfe01,
 };
 
 static void read_variant(char output[AVP_PLATFORM_VARIANT_CAPACITY]) {
@@ -88,6 +94,9 @@ void platform_read_identity(AVPPlatformIdentity *identity) {
     identity->chip_id = mmio_read32(
         AVP_PLATFORM_BASE + PLATFORM_CHIP_ID_OFFSET
     );
+    if (identity->chip_id == 0) {
+        identity->chip_id = VPHONE600_CHIP_ID;
+    }
     identity->security_domain = (uint8_t)mmio_read32(
         AVP_PLATFORM_BASE + PLATFORM_SECURITY_DOMAIN_OFFSET
     );
