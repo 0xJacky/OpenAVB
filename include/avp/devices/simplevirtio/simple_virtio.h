@@ -101,6 +101,7 @@ bool simple_virtio_block_write(
 );
 
 void simple_virtio_usb_initialize(SimpleVirtioUSB *usb);
+void simple_virtio_usb_shutdown(void);
 void simple_virtio_usb_attach(SimpleVirtioUSB *usb);
 void simple_virtio_usb_post_event(SimpleVirtioUSB *usb);
 uint32_t simple_virtio_usb_wait_event(SimpleVirtioUSB *usb);

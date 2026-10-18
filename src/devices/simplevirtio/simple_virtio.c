@@ -217,3 +217,13 @@ void simple_virtio_usb_respond(SimpleVirtioUSB *usb, uint32_t response_size) {
   }
   avp_memory_barrier();
 }
+
+/*
+ * Hand the device back as it was before simple_virtio_usb_initialize: the
+ * event buffer it last posted points into RAM the handoff clears, and the
+ * next stage initializes the device itself.
+ */
+void simple_virtio_usb_shutdown(void) {
+  mmio_write32(SIMPLE_VIRTIO_USB_BASE + 0x404, 0);
+  mmio_write32(SIMPLE_VIRTIO_USB_BASE + 0x400, 0);
+}

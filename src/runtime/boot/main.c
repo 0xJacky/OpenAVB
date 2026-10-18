@@ -163,6 +163,7 @@ __attribute__((no_stack_protector)) void firmware_main(void) {
        * boot, drops to the recovery prompt and panics there. */
       boot_context_mark_remote_boot(&boot_context);
       platform_publish_boot_context(&boot_context);
+      simple_virtio_usb_shutdown();
       source_image_handoff(
           source_image_base(),
           source_image_size(),
