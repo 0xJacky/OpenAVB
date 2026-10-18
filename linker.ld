@@ -126,12 +126,15 @@ SECTIONS
     __stack_bottom = STACK_BOTTOM;
     __stack_top = STACK_TOP;
     /* start.S publishes whether the core was entered at EL2 before the
-     * runtime is up, and the handoff reads it much later; the bring-up wipes
-     * both .bss and the low RAM state window, so it lives above the boot
-     * stack; RAM is out because the bring-up wipes .bss and the low state
-     * window, and the page-table pool covers the space past the stack. The
-     * ROM aperture is plain memory here and nothing writes above the image. */
-    avp_el2_present = ROM_LIMIT - 16;
+     * runtime is up, and the handoff reads it much later. The bring-up wipes
+     * .bss and the low RAM state window, and the page-table pool covers the
+     * space past the boot stack, so it takes the last 16 bytes of the patch
+     * store window, which nothing clears and no real table reaches.
+     *
+     * It must not live in the ROM aperture: Virtualization.framework maps
+     * the ROM read-only, and the store there faults before the first C
+     * frame (external abort, ESR 0x97130050, at the strb in _start). */
+    avp_el2_present = 0x71200000 + 0x00100000 - 16;
 
     .debug_abbrev 0 : { *(.debug_abbrev) }
     .debug_aranges 0 : { *(.debug_aranges) }
