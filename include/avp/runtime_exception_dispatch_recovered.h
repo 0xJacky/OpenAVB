@@ -1,0 +1,6 @@
+#ifndef AVP_COMPAT_RUNTIME_EXCEPTION_DISPATCH_RECOVERED_H
+#define AVP_COMPAT_RUNTIME_EXCEPTION_DISPATCH_RECOVERED_H
+
+#include "avp/runtime/exception/runtime_exception_dispatch_recovered.h"
+
+#endif

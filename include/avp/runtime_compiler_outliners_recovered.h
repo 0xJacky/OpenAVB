@@ -1,0 +1,6 @@
+#ifndef AVP_COMPAT_RUNTIME_COMPILER_OUTLINERS_RECOVERED_H
+#define AVP_COMPAT_RUNTIME_COMPILER_OUTLINERS_RECOVERED_H
+
+#include "avp/runtime/support/runtime_compiler_outliners_recovered.h"
+
+#endif

@@ -1,0 +1,6 @@
+#ifndef AVP_COMPAT_PLATFORM_IDENTITY_STATUS_NONCE_OWNER_H
+#define AVP_COMPAT_PLATFORM_IDENTITY_STATUS_NONCE_OWNER_H
+
+#include "avp/platform/platform_identity_status_nonce_owner.h"
+
+#endif

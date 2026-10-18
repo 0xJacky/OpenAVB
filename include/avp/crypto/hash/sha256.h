@@ -1,0 +1,7 @@
+#pragma once
+
+#include <stddef.h>
+#include <stdint.h>
+
+
+void sha256(const uint8_t *data, size_t size, uint8_t digest[32]);

@@ -1,0 +1,6 @@
+#ifndef AVP_COMPAT_RUNTIME_UNPRIVILEGED_MEMORY_RECOVERED_H
+#define AVP_COMPAT_RUNTIME_UNPRIVILEGED_MEMORY_RECOVERED_H
+
+#include "avp/runtime/support/runtime_unprivileged_memory_recovered.h"
+
+#endif
