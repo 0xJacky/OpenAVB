@@ -1,0 +1,15 @@
+{
+  "_comment": "Fixture for tools/gen_platform_profile.py: only the fields it reads, copied from the full d16ap platform description.",
+  "platform": "d16ap",
+  "machine": {
+    "display_pitch": {
+      "canvas": [
+        1125,
+        2436
+      ],
+      "panel_dot_pitch": 476,
+      "dot_pitch": 458,
+      "why": "The display this machine presents is 1125x2436 at 3x -- the iPhone X geometry, which is also the canvas a d16 renders before its panel scales the frame down to the glass's own 1080x2340 -- so its dot pitch has to be the one that goes with that size, 458, not the 1080x2340 glass's 476 that the board's ADT (`/arm-io/disp0/dot-pitch`) carries.  libMobileGestalt classes the screen by IOMobileFramebufferGetDisplaySize x `/chosen/display-scale` x IOMobileFramebufferGetDotPitch (MGIOMFBSupport; the pitch is `IOMobileFramebufferAP::get_dot_pitch` reading disp0's `dot-pitch`, kc16 0xfffffff009b2c210), and its table has 1080x2340x3x476 (class 22) and 1125x2436x3x458 (class 15) but nothing at 1125x2436x3x476 -- the same in 19A348, 20A362, 23A341 and 24A437 (read out of each build's libMobileGestalt).  Measured on 20A362 (guest DRAM): display-scale 3, dot-pitch 476, so main-screen-class came back -1, OnBoardingKit's `+[OBDevice currentDevice]` left its template type at 0, `-[OBHeaderView _setupAssistantIconHeight]` answered 0 for it, and every Setup page's header box collapsed: the Wi-Fi glyph drawn over the title and the Region page's globe at a fifth of its size.  Answering the display size as the glass instead (1080x2340 from DCP A442) does give class 22, but CoreAnimation then composites for a scaled panel the DCP model does not present, and the panel stays black.  The ROM rewrites the pitch at the SPTM handoff when disp0's canvas and pitch are the ones named here."
+    }
+  }
+}

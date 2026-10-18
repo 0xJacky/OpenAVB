@@ -1,0 +1,6 @@
+#ifndef AVP_COMPAT_RUNTIME_FIREBLOOM_RANGES_RECOVERED_H
+#define AVP_COMPAT_RUNTIME_FIREBLOOM_RANGES_RECOVERED_H
+
+#include "avp/runtime/firebloom/runtime_firebloom_ranges_recovered.h"
+
+#endif
