@@ -5,6 +5,9 @@ enum {
     AVP_BOOT_OPTION_FORCE_DFU = 1,
     AVP_BOOT_CONTEXT_INITIALIZED = 1,
     AVP_BOOT_CONTEXT_BOOT_NONCE_VALID = 2,
+    /* iBoot reads this bit of the published status as "Remote boot": the
+     * image it was handed came over USB rather than from local storage. */
+    AVP_BOOT_CONTEXT_REMOTE_BOOT = 0x20,
 };
 
 AVPBootPolicy boot_policy_decode(uint32_t configuration, uint32_t options) {
@@ -55,6 +58,10 @@ void boot_dispatch_preflight_hook_noop(void) {
 
 void boot_context_mark_boot_nonce_valid(AVPBootContext *context) {
     context->status |= AVP_BOOT_CONTEXT_BOOT_NONCE_VALID;
+}
+
+void boot_context_mark_remote_boot(AVPBootContext *context) {
+    context->status |= AVP_BOOT_CONTEXT_REMOTE_BOOT;
 }
 
 bool boot_source_next_candidate(

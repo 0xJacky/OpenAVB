@@ -54,6 +54,7 @@ BOOT_POLICY_PUBLIC int boot_context_populate_platform(
 );
 BOOT_POLICY_PUBLIC void boot_dispatch_preflight_hook_noop(void);
 void boot_context_mark_boot_nonce_valid(AVPBootContext *context);
+void boot_context_mark_remote_boot(AVPBootContext *context);
 bool boot_source_next_candidate(
     const AVPBootContext *context,
     int32_t attempt,

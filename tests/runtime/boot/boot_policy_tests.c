@@ -22,6 +22,8 @@ int main(void) {
     assert(boot_context_populate_platform(&initialized, 1, 3) == 0);
     assert(initialized.configuration == 2);
     assert(initialized.board_id == 9);
+    boot_context_mark_remote_boot(&initialized);
+    assert(initialized.status == 0x21);
     boot_dispatch_preflight_hook_noop();
 
     AVPBootPolicy policy = boot_policy_decode(1, 1);

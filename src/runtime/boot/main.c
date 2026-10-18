@@ -159,6 +159,10 @@ __attribute__((no_stack_protector)) void firmware_main(void) {
       boot_diagnostic("OpenBootROM: DFU entropy published\n");
       sep_finalize_bootstrap(&sep);
       boot_diagnostic("OpenBootROM: DFU SEP finalized\n");
+      /* An iBSS that is not told it came over USB takes itself for a local
+       * boot, drops to the recovery prompt and panics there. */
+      boot_context_mark_remote_boot(&boot_context);
+      platform_publish_boot_context(&boot_context);
       source_image_handoff(
           source_image_base(),
           source_image_size(),
