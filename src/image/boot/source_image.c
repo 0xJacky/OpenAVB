@@ -148,9 +148,18 @@ static bool validate_transport(const uint8_t *image, uint32_t downloaded_size) {
     if (!bytes_equal(footer, dfu_footer_prefix, sizeof(dfu_footer_prefix))) {
         return false;
     }
+    const uint32_t sent = read_u32_le(footer + sizeof(dfu_footer_prefix));
     uint32_t crc = crc32_update(UINT32_MAX, image, downloaded_size - 16);
     crc = crc32_update(crc, footer, sizeof(dfu_footer_prefix));
-    return crc == read_u32_le(footer + sizeof(dfu_footer_prefix));
+    /*
+     * libirecovery, and so idevicerestore, sends the DFU 1.1 suffix CRC: the
+     * register seeded with all ones over the image and the first twelve
+     * suffix bytes, not inverted at the end. Apple's ROM takes it, so it is
+     * accepted beside the form above.
+     */
+    uint32_t dfu_crc = crc32_update(0, image, downloaded_size - 16);
+    dfu_crc = crc32_update(dfu_crc, footer, sizeof(dfu_footer_prefix)) ^ UINT32_MAX;
+    return crc == sent || dfu_crc == sent;
 }
 
 static bool prepare_real_ibss(const uint8_t *image, uint32_t image_size) {
